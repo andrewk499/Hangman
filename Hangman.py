@@ -12,15 +12,22 @@ def print_display(display): #displays the progress of the word being guessed
     for i in display:
         print(i, end=" ")
 
+def get_guess():
+    guess = input("\nPlease guess a letter: ").upper()
+    while guess.isalpha() == False or len(guess) != 1:
+        guess = input("FOOL! I said A LETTER. Enter a letter, clown: ").upper()
+    
+    return guess
+
 def hangman(): 
     word = get_valid_word(words)
     word_letters = list(word)
     letter_count = len(word_letters) #gets the number of letters 
     display = []
+    used_letter = set()
 
     for i in range(letter_count):
         display.append("_")
-    
 
     print("Let the Hangman game begin!")
     print_display(display)
@@ -30,7 +37,13 @@ def hangman():
 
     #run loop until the number of attempts allowed is met
     while attempt_count < attempts_allowed: 
-        guess = input("\nPlease guess a letter: ").upper()
+        guess = get_guess()
+        while guess in used_letter:
+            print(f"Sorry, you have already guessed the letter {guess}")
+            guess = get_guess()
+        
+        used_letter.add(guess)
+        
         matches = 0
 
         for j in range(len(word_letters)):
@@ -42,7 +55,7 @@ def hangman():
             print(f"Yay! You got {matches} letter(s)")
         else:
             attempt_count += 1
-            print(f"Sorry, no letters matched. You have {attempts_allowed - attempt_count} attempts left.")
+            print(f"Sorry, no letters matched. You have {attempts_allowed - attempt_count} attempt(s) left.")
 
         print_display(display)
 
