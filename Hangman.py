@@ -24,7 +24,7 @@ def hangman():
     word_letters = list(word)
     letter_count = len(word_letters) #gets the number of letters 
     display = []
-    used_letter = set()
+    used_letter = set() #keeps of all letters that have been previously guess.
 
     for i in range(letter_count):
         display.append("_")
@@ -38,11 +38,11 @@ def hangman():
     #run loop until the number of attempts allowed is met
     while attempt_count < attempts_allowed: 
         guess = get_guess()
-        while guess in used_letter:
+        while guess in used_letter: #checks to make sure letter has not been previously guessed
             print(f"Sorry, you have already guessed the letter {guess}")
             guess = get_guess()
         
-        used_letter.add(guess)
+        used_letter.add(guess) #add the new letter to the set
         
         matches = 0
 
